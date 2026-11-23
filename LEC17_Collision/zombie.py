@@ -28,12 +28,15 @@ class Zombie:
             Zombie.images = {
                 'Walk': [load_image(f'./zombie/Walk ({i}).png') for i in range(1, 11)]
             }
+            'one'
+            'two'
 
     def __init__(self):
         self.load_images()
         self.x, self.y = random.randint(MIN_X, MAX_X), 150
         self.frame = random.randint(0, 9)
         self.dir = random.choice([-1, 1])
+        self.state = 'Walk'
 
     def update(self):
         dt = game_framework.frame_time
@@ -44,14 +47,26 @@ class Zombie:
         elif self.x < MIN_X:
             self.dir = 1
         self.x = clamp(MIN_X, self.x, MAX_X)
+        if self.state == 'two':
+            # 죽는 애니메이션을 끝까지 재생한 후에 제거한다.
+            game_world.remove_object(self)
+            return
 
     def draw(self):
-        image = Zombie.images['Walk'][int(self.frame)]
-        if self.dir < 0:
-            image.composite_draw(0, 'h', self.x, self.y, 200, 200)
-        else:
-            image.draw(self.x, self.y, 200, 200)
-        draw_rectangle(*self.get_bb())
+        if self.state == 'Walk':
+            image = Zombie.images['Walk'][int(self.frame)]
+            if self.dir < 0:
+                image.composite_draw(0, 'h', self.x, self.y, 100, 100)
+            else:
+                image.draw(self.x, self.y, 100, 100)
+            draw_rectangle(*self.get_bb())
+        if self.state == 'one':
+            image = Zombie.images['Walk'][int(self.frame)]
+            if self.dir < 0:
+                image.composite_draw(0, 'h', self.x, self.y, 100, 100)
+            else:
+                image.draw(self.x, self.y, 100, 100)
+                draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 100, self.y - 100, self.x + 100, self.y + 100
