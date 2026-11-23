@@ -52,7 +52,10 @@ class Zombie:
             game_world.remove_object(self)
             return
     def handle_collision(self,group,other):
-        pass
+        if self.state == 'Walk':
+            self.state = 'one'
+        if self.state == 'one':
+            self.state = 'two'
 
     def draw(self):
         if self.state == 'Walk':
