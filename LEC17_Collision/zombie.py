@@ -52,18 +52,19 @@ class Zombie:
             game_world.remove_object(self)
             return
     def handle_collision(self,group,other):
-        if self.state == 'Walk':
-            self.state = 'one'
-        if self.state == 'one':
-            self.state = 'two'
+        if group == 'zombie:ball':
+            if self.state == 'Walk':
+                self.state = 'one'
+            if self.state == 'one':
+                self.state = 'two'
 
     def draw(self):
         if self.state == 'Walk':
             image = Zombie.images['Walk'][int(self.frame)]
             if self.dir < 0:
-                image.composite_draw(0, 'h', self.x, self.y, 100, 100)
+                image.composite_draw(0, 'h', self.x, self.y, 200, 200)
             else:
-                image.draw(self.x, self.y, 100, 100)
+                image.draw(self.x, self.y, 200, 200)
             draw_rectangle(*self.get_bb())
         if self.state == 'one':
             image = Zombie.images['Walk'][int(self.frame)]
