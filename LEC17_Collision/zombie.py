@@ -51,6 +51,8 @@ class Zombie:
             # 죽는 애니메이션을 끝까지 재생한 후에 제거한다.
             game_world.remove_object(self)
             return
+    def handle_collision(self,group,other):
+        pass
 
     def draw(self):
         if self.state == 'Walk':
